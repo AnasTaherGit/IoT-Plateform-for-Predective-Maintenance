@@ -1,0 +1,709 @@
+[
+    {
+        "id": "3e8f0f05.d0eb4",
+        "type": "subflow",
+        "name": "Data plotting",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "300653a5.b5211c"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "300653a5.b5211c",
+        "type": "function",
+        "z": "3e8f0f05.d0eb4",
+        "name": "Data extracting function",
+        "func": "msg.payload=msg.payload.accelerometer_z\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "a3cbbf07.43c9a"
+            ]
+        ]
+    },
+    {
+        "id": "a3cbbf07.43c9a",
+        "type": "delay",
+        "z": "3e8f0f05.d0eb4",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "2",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 610,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "11fc9f68.f22611",
+        "type": "subflow",
+        "name": "Data storing Agent",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "51268b7d.785f94"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 780,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "1f55129c.328b3d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "51268b7d.785f94",
+        "type": "function",
+        "z": "11fc9f68.f22611",
+        "name": "DATA PARSING",
+        "func": "var sql = \"\";\nvar d = new Date();\nvar epoch = d.getTime();\nvar state=global.get(\"state\")|| false;\n\nif (state){\n    msg.payload={\"Device\":\"esp_Accelerometer\",\n                \"Accelerometer_x\":msg.payload.accelerometer_x,\n                \"Accelerometer_y\":msg.payload.accelerometer_y,\n                \"Accelerometer_z\":msg.payload.accelerometer_z,\n                \"localEpoch\":msg.payload.localEpoch,\n                \"Epoch\":epoch\n    };\n    \n    return msg;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [
+                "9b43da07.52ea48",
+                "682a8a92.2e8cd4"
+            ]
+        ]
+    },
+    {
+        "id": "9b43da07.52ea48",
+        "type": "debug",
+        "z": "11fc9f68.f22611",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "682a8a92.2e8cd4",
+        "type": "csv",
+        "z": "11fc9f68.f22611",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "Device,Accelerometer_x,Accelerometer_y,Accelerometer_z,localEpoch,Epoch",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "1f55129c.328b3d"
+            ]
+        ]
+    },
+    {
+        "id": "1f55129c.328b3d",
+        "type": "change",
+        "z": "11fc9f68.f22611",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "file",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "75ae185f.e9ebe8",
+        "type": "subflow",
+        "name": "Predective Maintenance Agent",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "a7fad1a.af6ae3"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 860,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "146bf07a.b3e49",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 860,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "146bf07a.b3e49",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "146bf07a.b3e49",
+        "type": "exec",
+        "z": "75ae185f.e9ebe8",
+        "command": "python \"C:\\Users\\cawoo\\OneDrive\\StageLafarge\\Prototype\\fft.py\"",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Vibration Analysis",
+        "x": 650,
+        "y": 80,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "442cf639.b9fab8",
+        "type": "change",
+        "z": "75ae185f.e9ebe8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "file",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 80,
+        "wires": [
+            [
+                "146bf07a.b3e49"
+            ]
+        ]
+    },
+    {
+        "id": "a7fad1a.af6ae3",
+        "type": "switch",
+        "z": "75ae185f.e9ebe8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "442cf639.b9fab8"
+            ]
+        ]
+    },
+    {
+        "id": "3894a45f.98b34c",
+        "type": "subflow",
+        "name": "Storage Manager",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "a7f19f58.c27a5"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 560,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "a7f19f58.c27a5",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "File_Name",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "a7f19f58.c27a5",
+        "type": "trigger",
+        "z": "3894a45f.98b34c",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "1",
+        "extend": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "c212aad2.579a78"
+            ]
+        ]
+    },
+    {
+        "id": "c212aad2.579a78",
+        "type": "function",
+        "z": "3894a45f.98b34c",
+        "name": "",
+        "func": "var e=msg.payload;\nvar d = new Date();\nvar epoch = d.getTime();\nvar Metadata=\"Device,Accelerometer_x,Accelerometer_y,Accelerometer_z,localEpoch,Epoch\";\n\nif(e==1){\n    file_name=\"C:\\\\users\\\\cawoo\\\\OneDrive\\\\StageLafarge\\\\prototype\\\\Data_\"+epoch+\".csv\";\n    global.set(\"file\",file_name);\n    msg.payload=Metadata;\n    msg.filename=file_name;\n    global.set(\"state\",true);\n    return msg;\n}\nelse{\n    global.set(\"state\",false);\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 160,
+        "wires": [
+            [
+                "b78123a5.0cc8b"
+            ]
+        ]
+    },
+    {
+        "id": "b78123a5.0cc8b",
+        "type": "file",
+        "z": "3894a45f.98b34c",
+        "name": "",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 780,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b991f4f8.c21068",
+        "type": "tab",
+        "label": "Accelerometer_Data",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a49305cb.7b9428",
+        "type": "mqtt in",
+        "z": "b991f4f8.c21068",
+        "name": "MPU6050",
+        "topic": "System/Vibration",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "e96009b8.f67ae8",
+        "x": 80,
+        "y": 100,
+        "wires": [
+            [
+                "44157a62.b00864"
+            ]
+        ]
+    },
+    {
+        "id": "4cc5a514.d2c4fc",
+        "type": "comment",
+        "z": "b991f4f8.c21068",
+        "name": "when you press the injection button, it enables/disables data storage in Database",
+        "info": "when you press the injection button, it enables/disables data storage in Database",
+        "x": 300,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b6e9cfef.e4e27",
+        "type": "comment",
+        "z": "b991f4f8.c21068",
+        "name": "Acquiring Data from a MQTT input and Storing the data in database",
+        "info": "",
+        "x": 260,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "e64c4127.d9992",
+        "type": "inject",
+        "z": "b991f4f8.c21068",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 420,
+        "wires": [
+            [
+                "57adb4ff.07267c"
+            ]
+        ]
+    },
+    {
+        "id": "c85eb971.3f9368",
+        "type": "debug",
+        "z": "b991f4f8.c21068",
+        "name": "Agent Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "8792ff.0df80d",
+        "type": "debug",
+        "z": "b991f4f8.c21068",
+        "name": "Agent Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "1a402a08.d28c56",
+        "type": "mqtt in",
+        "z": "b991f4f8.c21068",
+        "name": "Start Signal",
+        "topic": "System/Start",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "e96009b8.f67ae8",
+        "x": 290,
+        "y": 520,
+        "wires": [
+            [
+                "57adb4ff.07267c"
+            ]
+        ]
+    },
+    {
+        "id": "e1759014.dd54",
+        "type": "inject",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 360,
+        "wires": [
+            [
+                "5e0855a1.ac7bfc"
+            ]
+        ]
+    },
+    {
+        "id": "5e0855a1.ac7bfc",
+        "type": "mqtt out",
+        "z": "b991f4f8.c21068",
+        "name": "Start Order Sending",
+        "topic": "System/esp_configuration",
+        "qos": "1",
+        "retain": "",
+        "broker": "e96009b8.f67ae8",
+        "x": 460,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "57adb4ff.07267c",
+        "type": "subflow:3894a45f.98b34c",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "env": [],
+        "x": 490,
+        "y": 420,
+        "wires": [
+            [
+                "388cf52.fbcab0a"
+            ]
+        ]
+    },
+    {
+        "id": "388cf52.fbcab0a",
+        "type": "subflow:75ae185f.e9ebe8",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "env": [],
+        "x": 790,
+        "y": 520,
+        "wires": [
+            [
+                "c85eb971.3f9368"
+            ],
+            [
+                "8792ff.0df80d"
+            ]
+        ]
+    },
+    {
+        "id": "1d7b7086.833e4f",
+        "type": "subflow:11fc9f68.f22611",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "env": [],
+        "x": 630,
+        "y": 160,
+        "wires": [
+            [
+                "1277ee0.aadfb12"
+            ]
+        ]
+    },
+    {
+        "id": "f2e6b1e2.e760a",
+        "type": "subflow:3e8f0f05.d0eb4",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "env": [],
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "fcb5e615.4c8228",
+        "type": "ui_button",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "group": "d46830ba.2142c",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Data acquisition start",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "5e0855a1.ac7bfc"
+            ]
+        ]
+    },
+    {
+        "id": "1277ee0.aadfb12",
+        "type": "file",
+        "z": "b991f4f8.c21068",
+        "name": "Data csv file",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 870,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44157a62.b00864",
+        "type": "json",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 320,
+        "y": 100,
+        "wires": [
+            [
+                "f2e6b1e2.e760a",
+                "1d7b7086.833e4f"
+            ]
+        ]
+    },
+    {
+        "id": "e96009b8.f67ae8",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "d46830ba.2142c",
+        "type": "ui_group",
+        "z": "",
+        "name": "Sensor Configuration",
+        "tab": "7a36ed.e8b7d914",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "7a36ed.e8b7d914",
+        "type": "ui_tab",
+        "z": "",
+        "name": "FAN DATA",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
