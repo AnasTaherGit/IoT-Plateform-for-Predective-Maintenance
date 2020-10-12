@@ -323,7 +323,17 @@
                 "value": ""
             }
         ],
-        "color": "#DDAA99"
+        "color": "#DDAA99",
+        "status": {
+            "x": 560,
+            "y": 300,
+            "wires": [
+                {
+                    "id": "a7f19f58.c27a5",
+                    "port": 0
+                }
+            ]
+        }
     },
     {
         "id": "a7f19f58.c27a5",
@@ -334,9 +344,9 @@
         "op2": "0",
         "op1type": "str",
         "op2type": "str",
-        "duration": "1",
+        "duration": "50",
         "extend": false,
-        "units": "min",
+        "units": "s",
         "reset": "",
         "bytopic": "all",
         "topic": "topic",
@@ -345,7 +355,8 @@
         "y": 180,
         "wires": [
             [
-                "c212aad2.579a78"
+                "c212aad2.579a78",
+                "c9544052.daa8f"
             ]
         ]
     },
@@ -382,6 +393,22 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "c9544052.daa8f",
+        "type": "debug",
+        "z": "3894a45f.98b34c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 360,
+        "wires": []
     },
     {
         "id": "b991f4f8.c21068",
@@ -487,8 +514,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1030,
-        "y": 540,
+        "x": 1050,
+        "y": 600,
         "wires": []
     },
     {
@@ -560,7 +587,8 @@
         "y": 420,
         "wires": [
             [
-                "388cf52.fbcab0a"
+                "388cf52.fbcab0a",
+                "d255255f.5245f8"
             ]
         ]
     },
@@ -574,7 +602,8 @@
         "y": 520,
         "wires": [
             [
-                "c85eb971.3f9368"
+                "c85eb971.3f9368",
+                "cd78575a.38fd28"
             ],
             [
                 "8792ff.0df80d"
@@ -612,8 +641,8 @@
         "name": "",
         "group": "d46830ba.2142c",
         "order": 0,
-        "width": "0",
-        "height": "0",
+        "width": "5",
+        "height": "1",
         "passthru": false,
         "label": "Data acquisition start",
         "tooltip": "",
@@ -627,7 +656,8 @@
         "y": 280,
         "wires": [
             [
-                "5e0855a1.ac7bfc"
+                "5e0855a1.ac7bfc",
+                "473bf900.373468"
             ]
         ]
     },
@@ -665,6 +695,141 @@
         ]
     },
     {
+        "id": "cd78575a.38fd28",
+        "type": "ui_text",
+        "z": "b991f4f8.c21068",
+        "group": "b9df4e14.6de25",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Etat du Ventilateur",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 1090,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "84ed4eaf.46a08",
+        "type": "ui_text",
+        "z": "b991f4f8.c21068",
+        "group": "d46830ba.2142c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Sensor state",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1110,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "abba67c3.01a188",
+        "type": "change",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Ready",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 360,
+        "wires": [
+            [
+                "84ed4eaf.46a08"
+            ]
+        ]
+    },
+    {
+        "id": "d255255f.5245f8",
+        "type": "switch",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 400,
+        "wires": [
+            [
+                "abba67c3.01a188"
+            ],
+            [
+                "cd4d1ecd.6b3e4"
+            ]
+        ]
+    },
+    {
+        "id": "cd4d1ecd.6b3e4",
+        "type": "change",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Data acquisition in progress",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 420,
+        "wires": [
+            [
+                "84ed4eaf.46a08"
+            ]
+        ]
+    },
+    {
+        "id": "473bf900.373468",
+        "type": "debug",
+        "z": "b991f4f8.c21068",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 340,
+        "wires": []
+    },
+    {
         "id": "e96009b8.f67ae8",
         "type": "mqtt-broker",
         "z": "",
@@ -690,7 +855,18 @@
         "id": "d46830ba.2142c",
         "type": "ui_group",
         "z": "",
-        "name": "Sensor Configuration",
+        "name": "Sensor Control",
+        "tab": "7a36ed.e8b7d914",
+        "order": 2,
+        "disp": true,
+        "width": "8",
+        "collapse": false
+    },
+    {
+        "id": "b9df4e14.6de25",
+        "type": "ui_group",
+        "z": "",
+        "name": "FAN STATE",
         "tab": "7a36ed.e8b7d914",
         "order": 2,
         "disp": true,

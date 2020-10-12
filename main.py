@@ -9,7 +9,7 @@ import math
 
 N = const(2000)
 n = 0
-wait_time = const(10000)
+wait_time = const(100)
 Start_State = False
 Topic_pub = b"System/Vibration"
 Topic_pub_2 = b"System/Start"

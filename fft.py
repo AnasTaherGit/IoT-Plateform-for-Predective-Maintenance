@@ -15,7 +15,7 @@ plt.ylim((0, 1))
 
 for path in sys.argv[1:]:
     data = pandas.read_csv(path)
-    accel_x = data["Accelerometer_x"]
+    accel_x = data["Accelerometer_x"][0:2000]
     accel_x_np = np.array(accel_x)
     epoch = data["localEpoch"]
     T_max = epoch[len(epoch) - 1] - epoch[0]
@@ -38,6 +38,6 @@ for path in sys.argv[1:]:
     X_new = np.array([y_fft_amp])
     # print(X_new.shape)
     print(model.predict(X_new)[0])
-    # plt.plot(sample_freq, y_fft_amp)
+    plt.plot(sample_freq, y_fft_amp)
 
-# plt.show()
+plt.show()
