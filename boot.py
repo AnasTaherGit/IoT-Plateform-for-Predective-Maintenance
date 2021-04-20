@@ -12,8 +12,8 @@ import network
 webrepl.start()
 gc.collect()
 gc.mem_free()
-SSID = "2ndNetwork"
-pswd = "283F8C4B1E"
+SSID = "MYSSID"
+pswd = "MYPSWD"
 
 sta_if = network.WLAN(network.STA_IF)
 
